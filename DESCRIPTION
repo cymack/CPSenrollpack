@@ -1,19 +1,10 @@
 Package: CPSenrollpack
-Title: Packaged version of CPS high school enrollment data, 2006 to 2018.
+Title: Packaged version of CPS high school enrollment data, 2006 to 2018
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "Charlotte",
-           family = "Mack",
-           role = c("dtm", "cre"),
-           email = "cymack@gmail.com"),
-    person(given = "Mauro",
-           family = "Lepore",
-           role = "csp"),
-    person(given = "Justin",
-           family = "Shea",
-           role = "csp")
-Description: This package provides the data in Rds and csv formats, with
-    documentation.
+Authors@R: person(given = "Charlotte", family = "Mack", role = c("dtm", "cre"), email = "cymack@gmail.com")
+Author: Charlotte Mack, [dtm, cre], Mauro Lepore, [csp], Justin Shea, [csp]
+Maintainer: Charlotte Mack <cymack@gmail.com>
+Description: This package provides the data in Rds and csv formats, with documentation.
 License: Creative Commons (CC0)
 Encoding: UTF-8
 LazyData: true
