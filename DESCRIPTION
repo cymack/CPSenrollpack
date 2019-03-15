@@ -1,13 +1,20 @@
 Package: CPSenrollpack
-Title: What the Package Does (One Line, Title Case)
+Title: Packaged version of CPS high school enrollment data, 2006 to 2018.
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com")
-Description: What the package does (one paragraph).
-License: What license it uses
+    person(given = "Charlotte",
+           family = "Mack",
+           role = c("dtm", "cre"),
+           email = "cymack@gmail.com"),
+    person(given = "Mauro",
+           family = "Lepore",
+           role = "csp"),
+    person(given = "Justin",
+           family = "Shea",
+           role = "csp")
+Description: This package provides the data in Rds and csv formats, with
+    documentation.
+License: Creative Commons (CC0)
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/cymack/CPSenrollpack
