@@ -20,7 +20,7 @@ library(tidyverse)
 library(ggplot2)
 ```
 ```{r echo = F}
-enrollment <- readr::read_rds("./data/enrollment_all_hs.Rds")
+enrollment <- readr::read_rds("../data/enrollment_all_hs.Rds")
 enrollment %>% dplyr::glimpse()
 ```
 
