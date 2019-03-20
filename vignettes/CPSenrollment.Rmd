@@ -1,0 +1,159 @@
+---
+title: "A CPS Enrollment Dataset"
+author: "Charlotte Mack"
+date: "November 16, 2018"
+output: github_document 
+ 
+---
+
+```{r setup, echo=FALSE, messages = FALSE, warning = F}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Last updated `r format(Sys.Date(), "%B %d, %Y")`.  
+NB: This document is under construction! Comments are welcome.
+
+This repository contains exploratory analysis and visualizations of enrollment data that were extracted from Chicago Public Schools (CPS) public records. The prepared data are available at this repository in Rds and csv formats; at present there are only high school data, with elementary school data forthcoming. The sets span the school years from 2006--2007 through 2017--2018, and will be periodically updated.
+
+A glimpse of the high schools data:
+```{r include =  F, warnings = FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+```{r echo = F}
+enrollment <- readr::read_rds("./data/enrollment_all_hs.Rds")
+enrollment %>% dplyr::glimpse()
+```
+
+```{r plotstr, eval=FALSE, include=FALSE}
+# Visualization of the structure, using DataExplorer package:
+# library(DataExplorer)
+DataExplorer::plot_str(enrollment)
+```
+
+Number of schools represented in the data:
+`r length(unique(enrollment$school_id))`
+
+
+Number of schools for which there are data for all years in the period:
+```{r complete, echo = F}
+# 83 through 2018--2019
+listing <- enrollment %>% 
+    select(school_id, 
+           govern, 
+           year, 
+           total_hs)
+
+listing %>% 
+    filter(!is.na(school_id)) %>% 
+    spread(key = year, 
+           value = total_hs, 
+           fill = NA) %>% 
+    complete.cases() %>% 
+    sum()
+```
+
+Missing observations could be a key feature of the CPS enrollment dataset in some applications, because many of them are not generated randomly but as a result of the entry and exit of schools from the CPS roster. These processes often result in grades being phased in or out at the transitioning school. The next few exhibits concern missing points on some or all data where the school does have a record for the year. The case not considered at the moment is truncation when a school does not exist for some years --a form of hidden missing observations so to speak.
+
+Aggregate numbers of missing observations, by grade:
+```{r missing_grade, echo = F}
+library(ggthemes)
+enrollment %>% 
+    select(7:10) %>% 
+    DataExplorer::profile_missing() %>% 
+    ggplot(aes(x = fct_inorder(feature), y = num_missing)) +
+    geom_bar(stat = "identity", width = .5) + 
+    labs(y = "Number",
+         x = "Grade") +
+    ggtitle("Missing observations by grade, all years") +
+    ggthemes::theme_tufte() +
+    coord_flip()
+```
+
+Missing grade observations by year, counts:
+```{r _miss variables, include = F}
+enrollment <- enrollment %>% 
+    mutate_at(vars(g09:g12), funs(miss = is.na(.)))
+
+missing_by_yr <- enrollment %>% 
+    select(year, g09_miss:g12_miss) %>% 
+    group_by(year) %>% 
+    summarize_at(vars(g09_miss:g12_miss), 
+                 funs(sum(.)))
+
+```
+
+```{r _miss by year, echo = F}
+missing_by_yr %>% 
+    gather(key = feature, value = n, -year) %>% 
+    mutate(feature = str_remove(feature, "_miss")) %>%
+    ggplot(aes(x = fct_inorder(feature), y = n)) +
+    geom_bar(stat = "identity", width = .5) + 
+    labs(y = "Number",
+         x = "Grade") +
+    ggtitle("Missing observations by grade and year") +
+    theme_tufte() +
+    coord_flip() +
+    facet_wrap(~year)
+
+```
+```{r _miss shares, include = F}
+hs_by_yr <- enrollment %>%
+    select(year, school_id) %>% 
+    group_by(year) %>% 
+    count()
+missing_by_yr <- 
+    cbind(missing_by_yr, hs_by_yr$n) %>% 
+    rename(n_hs = `hs_by_yr$n`)
+
+missing_by_yr <- missing_by_yr %>% 
+    mutate_at(vars(g09_miss:g12_miss), 
+              funs(share = ./n_hs))
+
+```
+
+Missing grade observations by year, as a fraction of all for that year:
+```{r _miss shares by year, echo = F}
+missing_by_yr %>% 
+    select(year, g09_miss_share:g12_miss_share) %>% 
+    gather(key = feature, value = n, -year) %>% 
+    mutate(feature = str_remove(feature, "_miss_share")) %>%
+    ggplot(aes(x = fct_inorder(feature), y = n)) +
+    geom_bar(stat = "identity", width = .5) + 
+    labs(y = "Fraction",
+         x = "Grade") +
+    ggtitle("Fraction of observations missing by grade and year") +
+    ggthemes::theme_tufte(ticks = T) +
+    coord_flip() +
+    facet_wrap(~year)
+
+```
+
+Of 270 incomplete records occuring in 2006 through 2012, 55 records or 20 percent of the subset are provided by schools in a particular track of the CPS, called Academic Achievement High Schools. These were smaller institutions about which more information would be desirable. In general they only enrolled students in grades 9 and 10, though Chicago Vocational AA, Tilden AA, and Crane AA had instances of grade 11 or 12 enrollment. The program was apparently discontinued after the 2012--2013 school year.
+
+```{r incomplete and aa, include = F}
+incomplete <- enrollment[!complete.cases(enrollment),]
+
+# Extra filter below to remove AASTA-Orr (2006--2008), which has complete records and which might not be an AA school; should check on this somehow.
+AA <- enrollment[str_detect(enrollment$common_name, "AA"),] %>% filter(school_id != 610303)
+
+```
+
+Boxplot overview of high school enrollment distribution by year:
+```{r boxplot, message = F, warning = F, echo = F}
+library(ggthemes)
+enrollment %>% 
+  ggplot(aes(x=as.factor(year), y=total_hs)) + 
+  ggthemes::theme_tufte(ticks=F) + 
+  ggthemes::geom_tufteboxplot(median.type = "line", 
+                    whisker.type = "line", 
+                    hoffset = 0, 
+                    width = 3) + 
+  labs(title = "Annual CPS High School Enrollment Distributions", 
+       x ="Year", 
+       y ="Total High School Enrollment per School") + 
+  coord_flip()
+```
+
+# Notes
+The original CPS data are available in a series of spreadsheets at [CPS website.](http://www.cps.edu/SchoolData/Pages/SchoolData.aspx)^[Membership data are under the heading "Demographics."]
+Downloadable data files that I have prepared are in this repository with Rds and csv extensions. The Rds files, which are used in R language programming, may have some type designations that are not in the csv files, but there should be no other difference.
