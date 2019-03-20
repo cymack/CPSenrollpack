@@ -24,10 +24,7 @@ Then use the devtools install command as follows:
 install_github("cymack/CPSenrollpack")
 ```
 
-Example
--------
-
-This is a basic example which shows you how to solve a common problem:
+How to access the data.
 
 ``` r
 ## basic example code

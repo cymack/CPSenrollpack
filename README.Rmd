@@ -1,4 +1,7 @@
 ---
+title: "Introducing CPS Enrollment Datasets"
+author: "Charlotte Mack"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output: github_document
 ---
 
@@ -14,36 +17,23 @@ knitr::opts_chunk$set(
 ```
 # CPSenrollpack
 
-The goal of CPSenrollpack is to ...
+This repository contains enrollment data that were extracted from Chicago Public Schools (CPS) public records. The prepared data are available at this repository in Rds and csv formats; at present there are only high school data, with elementary school data forthcoming. The sets span the school years from 2006--2007 through 2018--2019, and will be periodically updated.
 
 ## Installation
 
-You can install the released version of CPSenrollpack from [CRAN](https://CRAN.R-project.org) with:
-
+You can install the released version of CPSenrollpack from [github](https://github.com/cymack/CPSenrollpack). If you do not have the devtools package, then first install it from [CRAN](https://cran.r-project.org/):
 ``` r
-install.packages("CPSenrollpack")
+install.packages(devtools)
 ```
 
-## Example
+Then use the devtools install command as follows:
 
-This is a basic example which shows you how to solve a common problem:
+``` r
+install_github("cymack/CPSenrollpack")
+```
+
+How to access the data.
 
 ```{r example}
 ## basic example code
 ```
-
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
