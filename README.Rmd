@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 # CPSenrollpack
 
-This repository contains enrollment data that were extracted from Chicago Public Schools (CPS) public records. The prepared data are available at this repository in Rds and csv formats; at present there are only high school data, with elementary school data forthcoming. The sets span the school years from 2006--2007 through 2018--2019, and will be periodically updated.
+This repository contains enrollment data that were extracted from Chicago Public Schools (CPS) public records. The prepared data are also available at this repository in Rds and csv formats; at present there are only high school data, with elementary school data forthcoming. The sets span the school years from 2006--2007 through 2018--2019, and will be periodically updated.
 
 ## Installation
 
@@ -32,7 +32,7 @@ Then use the devtools install command as follows:
 install_github("cymack/CPSenrollpack")
 ```
 
-How to access the data.
+The data files can be accessed simply by name at the command line, e.g. enrollment_all_hs.
 
 ```{r example}
 ## basic example code

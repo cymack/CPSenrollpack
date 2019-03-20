@@ -4,9 +4,13 @@ Version: 0.0.0.9000
 Authors@R: person(given = "Charlotte", family = "Mack", role = c("dtm", "cre"), email = "cymack@gmail.com")
 Author: Charlotte Mack, [dtm, cre], Mauro Lepore, [csp], Justin Shea, [csp]
 Maintainer: Charlotte Mack <cymack@gmail.com>
-Description: This package provides the data in Rds and csv formats, with documentation.
+Description: This package provides the data in Rds and csv formats as well as loadable rda.
 License: CC0
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/cymack/CPSenrollpack
 BugReports: https://github.com/cymack/CPSenrollpack/issues
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
