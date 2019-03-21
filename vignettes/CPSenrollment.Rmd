@@ -2,7 +2,11 @@
 title: "A CPS Enrollment Dataset"
 author: "Charlotte Mack"
 date: "November 16, 2018"
-output: github_document 
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{A CPS Enrollment Dataset}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
  
 ---
 
