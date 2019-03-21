@@ -2,11 +2,7 @@
 title: "A CPS Enrollment Dataset"
 author: "Charlotte Mack"
 date: "November 16, 2018"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{A CPS Enrollment Dataset}
-  %\VignetteEngine{knitr::render_markdown}
-  \usepackage[utf8]{inputenc}
+output: github_document 
  
 ---
 
@@ -24,7 +20,7 @@ library(tidyverse)
 library(ggplot2)
 ```
 ```{r echo = F}
-enrollment <- readr::read_rds("../data/enrollment_all_hs.Rds")
+enrollment <- readr::read_rds("./data/enrollment_all_hs.Rds")
 enrollment %>% dplyr::glimpse()
 ```
 
